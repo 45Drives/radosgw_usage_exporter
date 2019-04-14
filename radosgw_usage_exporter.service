@@ -1,0 +1,14 @@
+[Unit]
+Description=My Miscellaneous Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+EnvironmentFile=/etc/prometheus/radosgw_usage_exporter.conf
+ExecStart=/usr/bin/python ${INSTALL_DIR}/radosgw_usage_exporter.py -H ${RADOSGW_API_HOST} -a ${RADOSGW_API_KEY} -s ${RADOSGW_API_SECRET}
+StandardOutput=file:/var/log/radosgw_usage_exporter/radosgw_usage_exporter.log
+
+[Install]
+WantedBy=multi-user.target
+

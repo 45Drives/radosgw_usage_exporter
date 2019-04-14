@@ -260,7 +260,7 @@ class RADOSGWCollector(object):
 				bucket_zonegroup = "0"
 
 			if 'bucket_quota' in bucket:
-				# Get bucket quota. If not set/enabled set to 0 instead of -1
+				# Get bucket quota. If Quota not set/enabled set to 0 instead of -1
 				if 'max_size' in bucket['bucket_quota']:
 					bucket_quota_bytes = bucket['bucket_quota']['max_size']
 					if bucket_quota_bytes < 0:

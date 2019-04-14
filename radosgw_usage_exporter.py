@@ -148,7 +148,7 @@ class RADOSGWCollector(object):
 			'bucket_quota':
 				GaugeMetricFamily('radosgw_usage_bucket_quota_bytes',
 								  'Max size quota in bytes',
-								  labels=["bucket","owner","bucket_qutoa"])
+								  labels=["bucket","owner","zonegroup"])
 		}
 
 	def _get_usage(self, entry):

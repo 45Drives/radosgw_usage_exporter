@@ -258,12 +258,17 @@ class RADOSGWCollector(object):
 			# Hammer
 			else:
 				bucket_zonegroup = "0"
-		
+
 			if 'bucket_quota' in bucket:
+				# Get bucket quota. If not set/enabled set to 0 instead of -1
 				if 'max_size' in bucket['bucket_quota']:
 					bucket_quota_bytes = bucket['bucket_quota']['max_size']
+					if bucket_quota_bytes < 0:
+						bucket_quota_bytes = 0
 				if 'max_objects' in bucket['bucket_quota']:
 					bucket_quota_objects = bucket['bucket_quota']['max_objects']
+					if bucket_quota_objects < 0:
+						bucket_quota_objects = 0
 
 			self._prometheus_metrics['bucket_usage_bytes'].add_metric(
 				[bucket_name, bucket_owner, bucket_zonegroup],

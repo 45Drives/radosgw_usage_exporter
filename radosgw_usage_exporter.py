@@ -13,7 +13,7 @@ from collections import defaultdict, Counter
 from prometheus_client.core import GaugeMetricFamily, CounterMetricFamily, REGISTRY
 
 logging.basicConfig(level=logging.DEBUG)
-DEBUG = 1 #int(os.environ.get('DEBUG', '0'))
+DEBUG = int(os.environ.get('DEBUG', '0'))
 
 
 class RADOSGWCollector(object):

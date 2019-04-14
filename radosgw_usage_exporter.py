@@ -145,9 +145,13 @@ class RADOSGWCollector(object):
 				GaugeMetricFamily('radosgw_usage_scrape_duration_seconds',
 								  'Ammount of time each scrape takes',
 								  labels=[]),
-			'bucket_quota':
+			'bucket_quota_bytes':
 				GaugeMetricFamily('radosgw_usage_bucket_quota_bytes',
 								  'Max size quota in bytes',
+								  labels=["bucket","owner","zonegroup"]),
+			'bucket_quota_objects':
+				GaugeMetricFamily('radosgw_usage_bucket_quota_objects',
+								  'Max objects quota in objects',
 								  labels=["bucket","owner","zonegroup"])
 		}
 
@@ -257,7 +261,9 @@ class RADOSGWCollector(object):
 		
 			if 'bucket_quota' in bucket:
 				if 'max_size' in bucket['bucket_quota']:
-					bucket_quota = bucket['bucket_quota']['max_size']
+					bucket_quota_bytes = bucket['bucket_quota']['max_size']
+				if 'max_objects' in bucket['bucket_quota']:
+					bucket_quota_objects = bucket['bucket_quota']['max_objects']
 
 			self._prometheus_metrics['bucket_usage_bytes'].add_metric(
 				[bucket_name, bucket_owner, bucket_zonegroup],
@@ -271,9 +277,13 @@ class RADOSGWCollector(object):
 				[bucket_name, bucket_owner, bucket_zonegroup],
 					bucket_usage_objects)
 		
-			self._prometheus_metrics['bucket_quota'].add_metric(
+			self._prometheus_metrics['bucket_quota_bytes'].add_metric(
 				[bucket_name, bucket_owner, bucket_zonegroup],
-					bucket_quota)
+					bucket_quota_bytes)
+
+			self._prometheus_metrics['bucket_quota_objects'].add_metric(
+				[bucket_name, bucket_owner, bucket_zonegroup],
+					bucket_quota_objects)
 
 		else:
 			# Hammer junk, just skip it

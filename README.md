@@ -12,7 +12,7 @@ more elaborate Jenkins exporter here
 
 ## Requirements
 
-* Working Ceph Cluster with Object Gateways setup.
+* Working Ceph Cluster (v12,13,14) with Object Gateways setup.
 * Ceph RADOSGWs must beconfigured to gather usage information as this is not
 on by default. The miniumum is to enable it via `ceph.conf` as below. There are
 however other options that are available and should be considered
@@ -42,9 +42,14 @@ For haproxy the timeout in question is `timeout server`
 
 ## Local Installation
 ```
-git clone git@github.com:blemmenes/radosgw_usage_exporter.git
+git clone https://github.com/45Drives/radosgw_usage_exporter.git
 cd radosgw_usage_exporter
 pip install requirements.txt
+cp radosgw_usage_exporter.service /etc/systemd/system/
+cp radosgw_usage_exporter.conf /etc/prometheus/
+cp radosgw_usage_exporter.py /opt/prometheus/radosgw_usage_exporter/
+systemctl daemon-reload
+systemctl enable --now radosgw_usage_exporter
 ```
 
 ### Usage
